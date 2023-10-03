@@ -21,23 +21,22 @@ int positionOfSmallestElementAfter(std::vector<int>& ref, int startPosition)
 }
 
 
-void selectionSort(std::vector<int>& ref)
+void selectionSort(std::vector<int>& ref, int currentSelection)
 {
-    int currentSelection = 0;
     int minPos = 0;
     int saveSwapValue = 0;
 
-    while (currentSelection < ref.size())
+    minPos = positionOfSmallestElementAfter(ref, currentSelection);
+    if (minPos != currentSelection)
     {
-        minPos = positionOfSmallestElementAfter(ref, currentSelection);
-        if (minPos != currentSelection)
-        {
-            saveSwapValue = ref[currentSelection];
-            ref[currentSelection] = ref[minPos];
-            ref[minPos] = saveSwapValue;
-        }
-        currentSelection++;
+        saveSwapValue = ref[currentSelection];
+        ref[currentSelection] = ref[minPos];
+        ref[minPos] = saveSwapValue;
     }
+    currentSelection++;
+
+    if(currentSelection < ref.size())
+        selectionSort(ref, currentSelection);
 }
 
 // Display the list
@@ -66,7 +65,7 @@ int main()
     std::cout << std::endl;
 
     // Sort
-    selectionSort(list);
+    selectionSort(list, 0);
 
     std::cout << "Sorted list: " << std::endl;
     printVector(list);
